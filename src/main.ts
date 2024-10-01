@@ -4,8 +4,11 @@
 // EXPRESS
 import express from 'express'
 import mysql from 'mysql2/promise'
+import cors from 'cors'
 //Criar um OBJ do express
 const app = express()
+app.use(express.json())
+app.use(cors())
 app.get("/",(req,res)=>{
    res.send("Servidor funcionando!")
 })
@@ -24,6 +27,7 @@ app.get("/produtos",async(req,res)=>{
         }) 
     // 2 - Realizar uma consulta na tabela
     const [result,fields] = await conection.query("SELECT * from produtos")
+    await conection.end()
     // 3 - Devolver os dados para quem pediu 
     res.send(result)
    
